@@ -3,10 +3,7 @@ version: "3.9"
 services:
   prodigy-tone:
     image: prodigy-fusion
-    container_name: prodigy-tone
     command: prodigy textcat.manual tone ./datasets/tone.jsonl --label negative,neutral,positive --exclusive
-    ports:
-      - 8080:8080
     deploy:
       replicas: 1
       update_config:
@@ -16,17 +13,14 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.http.routers.quesmed-api.rule=Host(`fusion-tone.quesmed.com`)
-        - traefik.http.routers.quesmed-api.tls=true
-        - traefik.http.routers.quesmed-api.middlewares=https_redirect@file
-        - traefik.http.services.quesmed-api-service.loadbalancer.server.port=8080
+        - traefik.http.routers.prodigy-tone.rule=Host(`fusion-tone.quesmed.com`)
+        - traefik.http.routers.prodigy-tone.tls=true
+        - traefik.http.routers.prodigy-tone.middlewares=https_redirect@file
+        - traefik.http.services.prodigy-tone-service.loadbalancer.server.port=8080
 
   prodigy-emotion:
     image: prodigy-fusion
-    container_name: prodigy-emotion
     command: prodigy textcat.manual emotion ./datasets/emotion.jsonl --label sadness,joy,love,anger,fear,surprise --exclusive
-    ports:
-      - 8081:8080
     deploy:
       replicas: 1
       update_config:
@@ -36,17 +30,14 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.http.routers.quesmed-api.rule=Host(`fusion-emotion.quesmed.com`)
-        - traefik.http.routers.quesmed-api.tls=true
-        - traefik.http.routers.quesmed-api.middlewares=https_redirect@file
-        - traefik.http.services.quesmed-api-service.loadbalancer.server.port=8081
+        - traefik.http.routers.prodigy-emotion.rule=Host(`fusion-emotion.quesmed.com`)
+        - traefik.http.routers.prodigy-emotion.tls=true
+        - traefik.http.routers.prodigy-emotion.middlewares=https_redirect@file
+        - traefik.http.services.prodigy-emotion-service.loadbalancer.server.port=8080
 
   prodigy-theme:
     image: prodigy-fusion
-    container_name: prodigy-theme
     command: prodigy textcat.manual theme ./datasets/theme.jsonl --label clinical_update,community,question,education,advocating,dissuading,other --exclusive
-    ports:
-      - 8082:8080
     deploy:
       replicas: 1
       update_config:
@@ -56,7 +47,7 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.http.routers.quesmed-api.rule=Host(`fusion-theme.quesmed.com`)
-        - traefik.http.routers.quesmed-api.tls=true
-        - traefik.http.routers.quesmed-api.middlewares=https_redirect@file
-        - traefik.http.services.quesmed-api-service.loadbalancer.server.port=8082
+        - traefik.http.routers.prodigy-theme.rule=Host(`fusion-theme.quesmed.com`)
+        - traefik.http.routers.prodigy-theme.tls=true
+        - traefik.http.routers.prodigy-theme.middlewares=https_redirect@file
+        - traefik.http.services.prodigy-theme-service.loadbalancer.server.port=8080
