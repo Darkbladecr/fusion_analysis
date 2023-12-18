@@ -3,3 +3,6 @@ data/*
 fine-tuning-*
 *.paw
 .DS_STORE
+build*.sh
+Pipfile*
+requirements.txt
