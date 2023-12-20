@@ -4,6 +4,8 @@ services:
   fusion-tone:
     image: 142412772381.dkr.ecr.eu-west-1.amazonaws.com/prodigy-fusion:latest
     command: prodigy textcat.manual tone ./datasets/tone.jsonl --label negative,neutral,positive --exclusive
+    networks:
+      - traefik-proxy
     deploy:
       replicas: 1
       update_config:
@@ -11,16 +13,18 @@ services:
         delay: 60s
       restart_policy:
         condition: on-failure
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.fusion-tone.rule=Host(`fusion-tone.quesmed.com`)
-      - traefik.http.routers.fusion-tone.tls=true
-      - traefik.http.routers.fusion-tone.middlewares=https_redirect@file
-      - traefik.http.services.fusion-tone-service.loadbalancer.server.port=8080
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.fusion-tone.rule=Host(`fusion-tone.quesmed.com`)
+        - traefik.http.routers.fusion-tone.tls=true
+        - traefik.http.routers.fusion-tone.middlewares=https_redirect@file
+        - traefik.http.services.fusion-tone-service.loadbalancer.server.port=8080
 
   fusion-emotion:
     image: 142412772381.dkr.ecr.eu-west-1.amazonaws.com/prodigy-fusion:latest
     command: prodigy textcat.manual emotion ./datasets/emotion.jsonl --label sadness,joy,love,anger,fear,surprise --exclusive
+    networks:
+      - traefik-proxy
     deploy:
       replicas: 1
       update_config:
@@ -28,16 +32,18 @@ services:
         delay: 60s
       restart_policy:
         condition: on-failure
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.fusion-emotion.rule=Host(`fusion-emotion.quesmed.com`)
-      - traefik.http.routers.fusion-emotion.tls=true
-      - traefik.http.routers.fusion-emotion.middlewares=https_redirect@file
-      - traefik.http.services.fusion-emotion-service.loadbalancer.server.port=8080
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.fusion-emotion.rule=Host(`fusion-emotion.quesmed.com`)
+        - traefik.http.routers.fusion-emotion.tls=true
+        - traefik.http.routers.fusion-emotion.middlewares=https_redirect@file
+        - traefik.http.services.fusion-emotion-service.loadbalancer.server.port=8080
 
   fusion-theme:
     image: 142412772381.dkr.ecr.eu-west-1.amazonaws.com/prodigy-fusion:latest
     command: prodigy textcat.manual theme ./datasets/theme.jsonl --label clinical_update,community,question,education,advocating,dissuading,other --exclusive
+    networks:
+      - traefik-proxy
     deploy:
       replicas: 1
       update_config:
@@ -45,9 +51,13 @@ services:
         delay: 60s
       restart_policy:
         condition: on-failure
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.fusion-theme.rule=Host(`fusion-theme.quesmed.com`)
-      - traefik.http.routers.fusion-theme.tls=true
-      - traefik.http.routers.fusion-theme.middlewares=https_redirect@file
-      - traefik.http.services.fusion-theme-service.loadbalancer.server.port=8080
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.fusion-theme.rule=Host(`fusion-theme.quesmed.com`)
+        - traefik.http.routers.fusion-theme.tls=true
+        - traefik.http.routers.fusion-theme.middlewares=https_redirect@file
+        - traefik.http.services.fusion-theme-service.loadbalancer.server.port=8080
+
+networks:
+  traefik-proxy:
+    external: true
