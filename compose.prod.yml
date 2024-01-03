@@ -41,7 +41,7 @@ services:
 
   theme:
     image: 142412772381.dkr.ecr.eu-west-1.amazonaws.com/prodigy-fusion:latest
-    command: prodigy textcat.manual theme ./datasets/theme.jsonl --label clinical_update,community,question,education,advocating,dissuading,other --exclusive
+    command: prodigy textcat.manual theme ./datasets/theme.jsonl --label clinical_update,community,question,education,advocating,dissuading,other
     networks:
       - traefik-proxy
     deploy:
